@@ -31,9 +31,13 @@ def ViewProduct(request, pk):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def ViewProduct(request):
-    serializer = ProductSerializer(product, many=False)
+@api_view(['POST'])
+def CreateProduct(request):
+    serializer = ProductSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        
     return Response(serializer.data)
     
     
