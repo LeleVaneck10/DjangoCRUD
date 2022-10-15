@@ -1,8 +1,11 @@
+import imp
 from django.shortcuts import render
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view    
+from rest_framework.decorators import api_view   
 
+from .serializers import ProductSerializer
+from .models import Product
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -13,5 +16,26 @@ def apiOverview(request):
         'Update': '/product-update/<int:id>/',
         'Delete': '/product-detail/<int:id>/',
     }
+    
+@api_view(['GET'])
+def ShowAll(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def ViewProduct(request, pk):
+    product = Product.objects.get(id=pk)
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def ViewProduct(request):
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+    
+    
     
     return Response(api_urls);
