@@ -41,5 +41,11 @@ def CreateProduct(request):
     return Response(serializer.data)
     
     
-    
-    return Response(api_urls);
+@api_view(['POST'])
+def UpdateProduct(request, pk):
+    product = Product.objects.get(id=pk)
+    serializer = ProductSerializer(instance=product, data=request.data)
+    if serializer.is_valid():
+        serializer.save
+        
+    return Response(serializer.data)
